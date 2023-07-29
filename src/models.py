@@ -18,17 +18,6 @@ class Request(BaseModel):
     id: str = str(uuid4())
 
 
-class Response(BaseModel):
-    id: str = None
-    method: Literal['add', 'delete', 'update', 'select'] = None
-    status: str = None
-    reason: Optional[str] = None
-
-
-class SelectResponse(Response):
-    users: List[UserModel] = None
-
-
 class AddRequest(Request, UserModel):
     method: str = 'add'
 
@@ -43,7 +32,18 @@ class UpdateRequest(Request, UserModel):
 
 
 class SelectRequest(Request):
-    method = 'select'
+    method: str = 'select'
     name: Optional[str] = None
     surname: Optional[str] = None
     phone: Optional[str] = None
+
+
+class Response(BaseModel):
+    id: str = None
+    method: Literal['add', 'delete', 'update', 'select'] = None
+    status: Literal['success', 'failure'] = None
+    reason: Optional[str] = None
+
+
+class SelectResponse(Response):
+    users: List[UserModel] = None
