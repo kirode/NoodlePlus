@@ -34,6 +34,20 @@ def test_duplicated_phone(ws, add_request):
     assert failed_result == expected_result
 
 
+def test_add_empty_phone(ws, add_request):
+    add_request.phone = ''
+    ws.send_model(add_request)
+    failed_result = ws.recv_model(Response())
+
+    expected_result = Response()
+    expected_result.id = add_request.id
+    expected_result.method = add_request.method
+    expected_result.status = 'failure'
+    expected_result.reason = 'phone can not be empty'
+
+    assert failed_result == expected_result
+
+
 def test_duplicated_data_exclude_phone(ws, add_request):
     ws.send_model(add_request)
     add_request.id = str(uuid4())
