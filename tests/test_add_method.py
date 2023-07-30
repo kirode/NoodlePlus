@@ -14,11 +14,12 @@ def test_add_user_success(ws, add_request):
     expected_result.method = add_request.method
     expected_result.status = 'success'
 
-    assert expected_result == add_result
+    assert add_result == expected_result
 
 
 def test_duplicated_phone(ws, add_request):
     ws.send_model(add_request)
+    ws.recv_model(Response())
     add_request.id = str(uuid4())
 
     ws.send_model(add_request)
@@ -30,7 +31,7 @@ def test_duplicated_phone(ws, add_request):
     expected_result.status = 'failure'
     expected_result.reason = 'duplicated phone'
 
-    assert expected_result == failed_result
+    assert failed_result == expected_result
 
 
 def test_duplicated_data_exclude_phone(ws, add_request):
@@ -46,7 +47,7 @@ def test_duplicated_data_exclude_phone(ws, add_request):
     expected_result.method = add_request.method
     expected_result.status = 'success'
 
-    assert expected_result == add_result
+    assert add_result == expected_result
 
 
 @pytest.mark.parametrize('field', ['id', 'method', 'name', 'surname', 'phone', 'age'])
@@ -63,4 +64,4 @@ def test_mandatory_fields_validation(ws, add_request, field):
     expected_result.status = 'failure'
     expected_result.reason = f'{field} missed'
 
-    assert expected_result == failed_result
+    assert failed_result == expected_result
