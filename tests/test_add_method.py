@@ -62,6 +62,6 @@ def test_mandatory_fields_validation(ws, add_request, field):
     if field != 'method':
         expected_result.method = add_request.method
     expected_result.status = 'failure'
-    expected_result.reason = f'{field} missed'
+    expected_result.reason = f"[json.exception.out_of_range.403] key '{field}' not found"
 
     assert failed_result == expected_result
