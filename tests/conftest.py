@@ -1,7 +1,8 @@
 import pytest
-from websockets.sync.client import ClientConnection, connect
+from websockets.sync.client import connect
 
-from src.models import UserModel
+from src.factories import UserFactory, AddRequestFactory
+from src.models import UserModel, AddRequest
 from src.ws_wrapper import WsConnection
 
 
@@ -13,5 +14,10 @@ def ws() -> WsConnection:
 
 
 @pytest.fixture
-def user():
-    return UserModel()
+def user() -> UserModel:
+    return UserFactory.build()
+
+
+@pytest.fixture
+def add_request() -> AddRequest:
+    return AddRequestFactory.build()
