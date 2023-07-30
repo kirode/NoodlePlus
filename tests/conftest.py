@@ -1,8 +1,9 @@
 import pytest
 from websockets.sync.client import connect
 
-from src.factories import UserFactory, AddRequestFactory, DeleteRequestFactory, UpdateRequestFactory
-from src.models import UserModel, AddRequest, DeleteRequest, UpdateRequest
+from src.factories import UserFactory, AddRequestFactory, DeleteRequestFactory, UpdateRequestFactory, \
+    SelectRequestFactory
+from src.models import UserModel, AddRequest, DeleteRequest, UpdateRequest, SelectRequest
 from src.ws_wrapper import WsConnection
 
 
@@ -31,3 +32,8 @@ def delete_request() -> DeleteRequest:
 @pytest.fixture
 def update_request() -> UpdateRequest:
     return UpdateRequestFactory.build()
+
+
+@pytest.fixture
+def select_request() -> SelectRequest:
+    return SelectRequestFactory.build()
