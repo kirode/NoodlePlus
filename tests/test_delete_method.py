@@ -58,3 +58,6 @@ def test_delete_error_empty_phone(ws, delete_request):
     expected_result.reason = "phon can not be empty"
 
     assert failed_result == expected_result
+
+
+# TODO add test, try to delete with names/age and check user not deleted with select

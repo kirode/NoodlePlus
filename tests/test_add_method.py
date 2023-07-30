@@ -79,3 +79,6 @@ def test_mandatory_fields_validation(ws, add_request, field):
     expected_result.reason = f"[json.exception.out_of_range.403] key '{field}' not found"
 
     assert failed_result == expected_result
+
+
+# TODO add test/s with invalid data/data types

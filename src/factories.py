@@ -31,6 +31,10 @@ class UpdateRequestFactory(RequestFactory):
     __model__ = UpdateRequest
 
     method = 'update'
+    name = None
+    surname = None
+    phone = None
+    age = None
 
 
 class SelectRequestFactory(RequestFactory):
