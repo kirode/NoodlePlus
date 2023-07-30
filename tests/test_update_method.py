@@ -1,6 +1,7 @@
 from src.models import Response
 
 
+# TODO add parametrization
 def test_update_successful(ws, add_request, update_request):
     ws.send_model(add_request)
     ws.recv_model(Response())
@@ -20,3 +21,4 @@ def test_update_successful(ws, add_request, update_request):
 
 
 # TODO add test that check if phone change possible (maybe also add test that phone can not be set to null and empty str
+# TODO add test that phone can not be changed to existing number
