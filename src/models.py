@@ -1,17 +1,14 @@
 from typing import Optional, Literal, List
 
-from faker import Faker
 from pydantic import BaseModel
 from uuid import uuid4
 
-fake = Faker()
-
 
 class UserModel(BaseModel):
-    name: str = fake.first_name()
-    surname: str = fake.last_name()
-    phone: str = fake.basic_phone_number()
-    age: int = fake.random_int(0, 120, 1)
+    name: str
+    surname: str
+    phone: str
+    age: int
 
 
 class Request(BaseModel):

@@ -1,6 +1,3 @@
-from uuid import uuid4
-
-from polyfactory import Use
 from polyfactory.factories.pydantic_factory import ModelFactory
 
 from src.models import *
