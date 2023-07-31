@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Optional, Literal, List
 
 from pydantic import BaseModel
@@ -9,6 +11,12 @@ class UserModel(BaseModel):
     surname: str
     phone: str
     age: int
+
+    def __lt__(self, other: UserModel):
+        return self.phone < other.phone
+
+    def __gt__(self, other: UserModel):
+        return self.phone > other.phone
 
 
 class Request(BaseModel):
@@ -24,8 +32,12 @@ class DeleteRequest(Request):
     phone: str = None
 
 
-class UpdateRequest(Request, UserModel):
+class UpdateRequest(Request):
     method: str = 'update'
+    name: Optional[str]
+    surname: Optional[str]
+    phone: Optional[str]
+    age: Optional[int]
 
 
 class SelectRequest(Request):

@@ -42,6 +42,6 @@ def test_select_few_users_by_name(ws, add_request, select_request):
     expected_result.id = select_request.id
     expected_result.method = select_request.method
     expected_result.status = 'success'
-    expected_result.users = [first_user, second_user]
+    expected_result.users = sorted([first_user, second_user])
 
     assert result == expected_result
