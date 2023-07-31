@@ -1,16 +1,26 @@
+import pytest
+
 from helpers import get_user_from_request_model
 from src.models import Response, SelectResponse
 
 
 # TODO add parametrization
-def test_update_successful(ws, add_request, update_request, select_request):
+@pytest.mark.parametrize('key, value', [
+    ('name', '_new_name'),
+    ('surname', '_new_surname'),
+    ('phone', '1234'),
+    ('age', 12)
+])
+def test_update_successful(ws, add_request, update_request, select_request, key, value):
     ws.send_model(add_request)
     ws.recv_model(Response())
 
-    update_request.name = add_request.name + '_new_name'
+    update_request.name = add_request.name
     update_request.surname = add_request.surname
     update_request.phone = add_request.phone
     update_request.age = add_request.age
+
+    vars(update_request)[key] += value
     ws.send_model(update_request)
     result = ws.recv_model(Response())
 
@@ -28,7 +38,7 @@ def test_update_successful(ws, add_request, update_request, select_request):
     result = ws.recv_model(SelectResponse())
 
     expected_user = get_user_from_request_model(add_request)
-    expected_user.name = update_request.name
+    vars(expected_user)[key] += value
 
     assert result.users[0] == expected_user
 
