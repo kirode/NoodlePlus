@@ -113,4 +113,39 @@ def test_phone_can_not_be_changed_to_existing_number(ws, add_request, update_req
     with check:
         assert select_result.users[0] == second_user
 
-# TODO add test that field can not be changed to invalid type values
+
+@pytest.mark.parametrize('key, value', [
+    ('name', 123),
+    ('surname', 3214),
+    ('phone', True),
+    ('age', False)
+])
+def test_update_invalid_types(ws, add_request, update_request, select_request, key, value):
+    ws.send_model(add_request)
+    ws.recv_model(Response())
+
+    update_request.name = add_request.name
+    update_request.surname = add_request.surname
+    update_request.phone = add_request.phone
+    update_request.age = add_request.age
+
+    vars(update_request)[key] = value
+    ws.send_model(update_request)
+    result = ws.recv_model(Response())
+
+    expected_result = Response()
+    expected_result.id = update_request.id
+    expected_result.status = 'failure'
+    expected_result.reason = 'invalid data type'
+
+    with check:
+        assert result == expected_result
+
+    select_request.phone = add_request.phone
+    ws.send_model(select_request)
+    result = ws.recv_model(SelectResponse())
+
+    expected_user = get_user_from_request_model(add_request)
+
+    with check:
+        assert result.users[0] == expected_user
