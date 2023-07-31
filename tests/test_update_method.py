@@ -115,10 +115,10 @@ def test_phone_can_not_be_changed_to_existing_number(ws, add_request, update_req
 
 
 @pytest.mark.parametrize('key, value, reason', [
-    ('name', 123, '[json.exception.type_error.302] type must be a string, but is number'),
-    ('surname', 3214, '[json.exception.type_error.302] type must be a string, but is number'),
+    ('name', 123, '[json.exception.type_error.302] type must be string, but is number'),
+    ('surname', 3214, '[json.exception.type_error.302] type must be string, but is number'),
     ('phone', True, '[json.exception.type_error.302] type must be string, but is boolean'),
-    ('age', False, '[json.exception.type_error.302] type must be a integer, but is boolean')
+    ('age', False, '[json.exception.type_error.302] type must be integer, but is boolean')
 ])
 def test_update_invalid_types(ws, add_request, update_request, select_request, key, value, reason):
     ws.send_model(add_request)
