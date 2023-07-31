@@ -27,7 +27,6 @@ def test_duplicated_phone(ws, add_request):
 
     expected_result = Response()
     expected_result.id = add_request.id
-    expected_result.method = add_request.method
     expected_result.status = 'failure'
     expected_result.reason = 'duplicated phone'
 
@@ -41,7 +40,6 @@ def test_add_empty_phone(ws, add_request):
 
     expected_result = Response()
     expected_result.id = add_request.id
-    expected_result.method = add_request.method
     expected_result.status = 'failure'
     expected_result.reason = 'phone can not be empty'
 
@@ -73,8 +71,6 @@ def test_mandatory_fields_validation(ws, add_request, field):
     expected_result = Response()
     if field != 'id':
         expected_result.id = add_request.id
-    if field != 'method':
-        expected_result.method = add_request.method
     expected_result.status = 'failure'
     expected_result.reason = f"[json.exception.out_of_range.403] key '{field}' not found"
 

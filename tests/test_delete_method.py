@@ -26,7 +26,6 @@ def test_delete_error_phone_not_found(ws, delete_request):
 
     expected_result = Response()
     expected_result.id = delete_request.id
-    expected_result.method = delete_request.method
     expected_result.status = 'failure'
     expected_result.reason = 'phone not found'
 
@@ -39,7 +38,6 @@ def test_delete_error_no_phone_given(ws, delete_request):
 
     expected_result = Response()
     expected_result.id = delete_request.id
-    expected_result.method = delete_request.method
     expected_result.status = 'failure'
     expected_result.reason = f"[json.exception.out_of_range.403] key phone not found"
 
@@ -53,7 +51,6 @@ def test_delete_error_empty_phone(ws, delete_request):
 
     expected_result = Response()
     expected_result.id = delete_request.id
-    expected_result.method = delete_request.method
     expected_result.status = 'failure'
     expected_result.reason = "phon can not be empty"
 
