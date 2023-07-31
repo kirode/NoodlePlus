@@ -114,13 +114,13 @@ def test_phone_can_not_be_changed_to_existing_number(ws, add_request, update_req
         assert select_result.users[0] == second_user
 
 
-@pytest.mark.parametrize('key, value', [
-    ('name', 123),
-    ('surname', 3214),
-    ('phone', True),
-    ('age', False)
+@pytest.mark.parametrize('key, value, reason', [
+    ('name', 123, '[json.exception.type_error.302] type must be a string, but is number'),
+    ('surname', 3214, '[json.exception.type_error.302] type must be a string, but is number'),
+    ('phone', True, '[json.exception.type_error.302] type must be a string, but is bool'),
+    ('age', False, '[json.exception.type_error.302] type must be a integer, but is bool')
 ])
-def test_update_invalid_types(ws, add_request, update_request, select_request, key, value):
+def test_update_invalid_types(ws, add_request, update_request, select_request, key, value, reason):
     ws.send_model(add_request)
     ws.recv_model(Response())
 
@@ -136,7 +136,7 @@ def test_update_invalid_types(ws, add_request, update_request, select_request, k
     expected_result = Response()
     expected_result.id = update_request.id
     expected_result.status = 'failure'
-    expected_result.reason = 'invalid data type'
+    expected_result.reason = reason
 
     with check:
         assert result == expected_result
