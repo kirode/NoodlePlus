@@ -8,6 +8,8 @@ def test_update_successful(ws, add_request, update_request, select_request):
     ws.recv_model(Response())
 
     update_request.name = add_request.name + '_new_name'
+    update_request.surname = add_request.surname
+    update_request.phone = add_request.phone
     ws.send_model(update_request)
     result = ws.recv_model(Response())
 
