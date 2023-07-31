@@ -89,10 +89,10 @@ def test_phone_can_not_be_changed_to_existing_number(ws, add_request, update_req
     ws.recv_model(Response())
     second_user = get_user_from_request_model(add_request)
 
-    update_request.name = add_request.name
-    update_request.surname = add_request.surname
+    update_request.name = second_user.name
+    update_request.surname = second_user.surname
     update_request.phone = first_user.phone
-    update_request.age = add_request.age
+    update_request.age = second_user.age
 
     ws.send_model(update_request)
     result = ws.recv_model(Response())
