@@ -94,11 +94,23 @@ def test_phone_can_not_be_changed_to_existing_number(ws, add_request, update_req
     update_request.phone = first_user.phone
     update_request.age = add_request.age
 
+    ws.send_model(update_request)
+    result = ws.recv_model(Response())
+
+    expected_result = Response()
+    expected_result.id = update_request.id
+    expected_result.status = 'failure'
+    expected_result.reason = 'phone can not be empty'
+
+    with check:
+        assert result == expected_result
+
     select_request.name = second_user.name
     select_request.surname = second_user.surname
     ws.send_model(select_request)
-    result = ws.recv_model(SelectResponse())
+    select_result = ws.recv_model(SelectResponse())
 
-    assert result.users[0] == second_user
+    with check:
+        assert select_result.users[0] == second_user
 
 # TODO add test that field can not be changed to invalid type values
