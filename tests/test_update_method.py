@@ -1,10 +1,10 @@
 import pytest
+from pytest_check import check
 
 from helpers import get_user_from_request_model
 from src.models import Response, SelectResponse
 
 
-# TODO add parametrization
 @pytest.mark.parametrize('key, value', [
     ('name', '_new_name'),
     ('surname', '_new_surname'),
@@ -29,9 +29,10 @@ def test_update_successful(ws, add_request, update_request, select_request, key,
     expected_result.method = update_request.method
     expected_result.status = 'success'
 
-    # TODO add select check that name changed (better make 2 soft asserts, for case when got error but change completed
+    # TODO make 2 soft asserts, for case when got error but change completed
 
-    assert result == expected_result
+    with check:
+        assert result == expected_result
 
     select_request.phone = add_request.phone
     ws.send_model(select_request)
@@ -40,7 +41,8 @@ def test_update_successful(ws, add_request, update_request, select_request, key,
     expected_user = get_user_from_request_model(add_request)
     vars(expected_user)[key] += value
 
-    assert result.users[0] == expected_user
+    with check:
+        assert result.users[0] == expected_user
 
 
 # TODO add test that check if phone change possible (maybe also add test that phone can not be set to null and empty str
