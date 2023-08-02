@@ -61,8 +61,6 @@ def test_delete_error_empty_phone(ws, delete_request):
     assert failed_result == expected_result
 
 
-# TODO add test, try to delete with names/age and check user not deleted with select
-
 @pytest.mark.parametrize('field_name', ['name', 'surname', 'age'])
 def test_error_with_not_phone_params(ws, add_request, select_request, delete_request, field_name):
     ws.send_model(add_request)
