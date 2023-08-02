@@ -3,7 +3,7 @@ from uuid import uuid4
 import pytest
 from pytest_check import check
 
-from src.models import UserModel, DeleteRequest, SelectRequest, SelectResponse, Response
+from src.models import SelectResponse, Response
 
 
 def test_add_user_success(ws, add_request):

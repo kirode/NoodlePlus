@@ -1,6 +1,6 @@
 from typing import Union
 
-from websockets.sync.client import ClientConnection, connect as ws_connect
+from websockets.sync.client import ClientConnection
 
 from src.models import SelectResponse, Response
 
