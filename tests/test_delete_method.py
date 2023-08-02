@@ -74,7 +74,7 @@ def test_error_with_not_phone_params(ws, add_request, select_request, delete_req
     expected_result = Response()
     expected_result.id = delete_request.id
     expected_result.status = 'failure'
-    expected_result.reason = "phon phone is required"
+    expected_result.reason = "phone is required"
 
     ws.send_model(delete_request)
     response = ws.recv_model(Response())
