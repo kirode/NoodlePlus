@@ -24,14 +24,19 @@ def test_select_successful(ws, add_request, select_request):
     assert result == expected_result
 
 
-def test_select_few_users_by_name(ws, add_request, select_request):
+@pytest.mark.parametrize('field', ['name', 'surname'])
+def test_select_few_users_by_names(ws, add_request, select_request, field):
     ws.send_model(add_request)
     ws.recv_model(Response())
     first_user = get_user_from_request_model(add_request)
 
-    add_request.surname = str(uuid4())
     add_request.id = str(uuid4())
     add_request.phone = str(uuid4())
+    if field == 'name':
+        add_request.surname = str(uuid4())
+    if field == 'surname':
+        add_request.name = str(uuid4())
+
     ws.send_model(add_request)
     ws.recv_model(Response())
     second_user = get_user_from_request_model(add_request)
