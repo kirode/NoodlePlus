@@ -59,6 +59,7 @@ def test_select_not_existing_user(ws, select_request, param):
     expected_result = SelectResponse()
     expected_result.id = select_request.id
     expected_result.status = 'failure'
+    expected_result.reason = 'user not found'
     expected_result.users = []
 
     assert result == expected_result
