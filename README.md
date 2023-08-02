@@ -17,4 +17,4 @@ pip install -r requirements.txt
 pytest
 ```
 
-python 3.8-3.10 supproted
+python 3.8 supproted
