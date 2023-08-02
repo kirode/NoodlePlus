@@ -1,5 +1,7 @@
 from uuid import uuid4
 
+import pytest
+
 from helpers import get_user_from_request_model
 from src.models import Response, SelectResponse
 
@@ -43,5 +45,19 @@ def test_select_few_users_by_name(ws, add_request, select_request):
     expected_result.method = select_request.method
     expected_result.status = 'success'
     expected_result.users = sorted([first_user, second_user])
+
+    assert result == expected_result
+
+
+@pytest.mark.parametrize('param', ['name', 'surname', 'phone'])
+def test_select_not_existing_user(ws, select_request, param):
+    vars(select_request)[param] = str(uuid4())
+
+    ws.send_model(select_request)
+    result = ws.recv_model(SelectResponse())
+
+    expected_result = SelectResponse()
+    expected_result.id = select_request.id
+    expected_result.status = 'failure'
 
     assert result == expected_result
