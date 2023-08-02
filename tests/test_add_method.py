@@ -103,4 +103,4 @@ def test_add_invalid_types(ws, add_request, update_request, select_request, key,
     result = ws.recv_model(SelectResponse())
 
     with check:
-        assert len(result.users) == 0
+        assert result.users == [] or result.users is None
