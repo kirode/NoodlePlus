@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 import pytest
+from pytest_check import check
 
 from src.models import UserModel, DeleteRequest, SelectRequest, SelectResponse, Response
 
@@ -77,4 +78,29 @@ def test_mandatory_fields_validation(ws, add_request, field):
     assert failed_result == expected_result
 
 
-# TODO add test/s with invalid data/data types
+@pytest.mark.parametrize('key, value, reason', [
+    ('name', 123, '[json.exception.type_error.302] type must be string, but is number'),
+    ('surname', 3214, '[json.exception.type_error.302] type must be string, but is number'),
+    ('phone', True, '[json.exception.type_error.302] type must be string, but is boolean'),
+    ('age', False, '[json.exception.type_error.302] type must be integer, but is boolean')
+])
+def test_add_invalid_types(ws, add_request, update_request, select_request, key, value, reason):
+
+    vars(add_request)[key] = value
+    ws.send_model(add_request)
+    result = ws.recv_model(Response())
+
+    expected_result = Response()
+    expected_result.id = add_request.id
+    expected_result.status = 'failure'
+    expected_result.reason = reason
+
+    with check:
+        assert result == expected_result
+
+    select_request.phone = add_request.phone
+    ws.send_model(select_request)
+    result = ws.recv_model(SelectResponse())
+
+    with check:
+        assert len(result.users) == 0
